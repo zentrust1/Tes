@@ -1,0 +1,50 @@
+name: Build Nusantara ROM
+
+on:
+  push:
+    branches:
+      - main  # Sesuaikan dengan nama cabang Anda
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Gunakan runner yang sesuai
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Java JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y <list_paket>
+        # Gantilah <list_paket> dengan paket yang Anda butuhkan.
+
+      - name: Clone Device Tree
+        run: |
+          git clone https://github.com/NusantaraProject-Devices/device_codename device/codename
+        # Gantilah "codename" sesuai dengan nama "device tree" perangkat Anda.
+
+      - name: Configure ROM Build
+        run: |
+          . build/envsetup.sh
+          lunch nusantara_codename-userdebug
+        # Gantilah "codename" sesuai dengan nama "device tree" perangkat Anda.
+
+      - name: Build ROM
+        run: |
+          mka bacon
+          # Tambahkan perintah kompilasi tambahan jika diperlukan.
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: nusantara-rom
+          path: out/target/product/codename
+        # Gantilah "codename" sesuai dengan nama "device tree" perangkat Anda.
+
