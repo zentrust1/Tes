@@ -32,7 +32,7 @@ jobs:
       - name: repo
         run: |
            mkdir evo && cd evo
-           repo init -u https://github.com/Evolution-X/manifest -b elle
+           repo init -u https://github.com/Evolution-X/manifest -b tiramisu
            repo sync -c -j$(nproc --all) --force-sync --no-clone-bundle --no-tags
             
       - name: Source Environment Setup
