@@ -35,3 +35,17 @@ jobs:
       - name: List extracted files
         run: |
           ls -la ./extracted_files
+
+      # Memindahkan hasil ekstraksi ke direktori kerja repository
+      - name: Move extracted files to repo
+        run: |
+          mv ./extracted_files/* ./
+
+      # Commit perubahan ke repository
+      - name: Commit changes
+        run: |
+          git config --local user.name "GitHub Actions"
+          git config --local user.email "actions@github.com"
+          git add .
+          git commit -m "Add extracted files from zip"
+          git push
