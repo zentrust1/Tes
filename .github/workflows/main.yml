@@ -19,6 +19,7 @@ jobs:
         run: |
           sudo apt update
           sudo apt install python3-pip -y
+          pip3 install lz4
           pip3 install gdown
 
       # Mendownload file zip dari Google Drive
@@ -45,7 +46,18 @@ jobs:
       - name: List extracted files
         run: |
           ls -la ./extracted_files
-      
+      - name: Decompress .img.lz4 file
+        run: |
+          for file in ./extracted_files/*.img.lz4; do
+            if [ -f "$file" ]; then
+              lz4 -d "$file" "${file%.lz4}"  # Menghapus ekstensi .lz4 untuk hasil
+            fi
+          done
+
+      - name: List final extracted .img files
+        run: |
+          ls -la ./extracted_files
+
 
       - name: Upload to Release
         uses: softprops/action-gh-release@v1
