@@ -38,7 +38,13 @@ jobs:
             sudo gzip -dc ../initrd.img | sudo cpio -idmv
 
             
-            sudo cp system/bin/su ../$OUTPUT_DIR/ || echo "su binary not found"
+            SU_PATH=$(find . -name su -type f)
+            if [ -n "$SU_PATH" ]; then
+              sudo cp "$SU_PATH" ../$OUTPUT_DIR/
+              echo "Found su binary at: $SU_PATH"
+            else
+              echo "su binary not found"
+            fi
             cd ..
           fi
      
