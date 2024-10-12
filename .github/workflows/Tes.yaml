@@ -22,7 +22,7 @@ jobs:
         run: |
           
           # Mengunduh boot.img
-          wget --no-check-certificate https://github.com/zentrust1/Tes/releases/download/file2/boot.img -O boot.img
+          wget --no-check-certificate https://github.com/zentrust1/Tes/releases/download/V1.1/boot.img -O boot.img
 
       - name: Extract su from boot.img
         run: |
@@ -44,8 +44,21 @@ jobs:
             cd ..
           fi
 
-      - name: Upload su binary
-        uses: actions/upload-artifact@v2
+      - name: List final extracted .img files
+        run: |
+          ls -la ./extracted_su
+
+
+      - name: Upload to Release
+        uses: softprops/action-gh-release@v1
         with:
-          name: su-binary
-          path: extracted_su/su
+          files: | 
+            ./extracted_su/su
+            
+          name: su
+          tag_name: file3
+          body: |
+            isi:su
+        
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
