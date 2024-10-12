@@ -1,0 +1,23 @@
+name: Sign APK
+
+on:
+  workflow_dispatch:  # Jalankan workflow secara manual
+    # Jalankan setiap kali ada push ke branch main
+
+jobs:
+  sign-zip:
+    runs-on: ubuntu-latest       # Jalankan di mesin virtual Ubuntu
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2  # Tarik (checkout) repo ini
+
+    - name: Run signapk.jar to sign zip
+      run: |
+        java -jar signapk.jar testkey.x509.pem testkey.pk8 unsigned.zip signed.zip  # Jalankan proses penandatanganan
+
+    - name: Upload signed zip
+      uses: actions/upload-artifact@v2
+      with:
+        name: signed-zip         # Nama file artefak yang akan di-upload
+        path: signed.zip         # Path ke file yang ditandatangani (hasil output)
