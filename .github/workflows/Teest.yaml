@@ -14,10 +14,19 @@ jobs:
 
     - name: Run signapk.jar to sign zip
       run: |
-        java -jar signapk.jar testkey.x509.pem testkey.pk8 unsigned.zip signed.zip  # Jalankan proses penandatanganan
+        java -jar signapk.jar testkey.x509.pem testkey.pk8 unsigned.zip install.zip  
+    - name: List final extracted .img files
+      run: |
+        ls 
 
-    - name: Upload signed zip
-      uses: actions/upload-artifact@v2
+    - name: Upload to Release
+      uses: softprops/action-gh-release@v1
       with:
-        name: signed-zip         # Nama file artefak yang akan di-upload
-        path: signed.zip         # Path ke file yang ditandatangani (hasil output)
+          files: | 
+            install.zip
+          name: s
+          tag_name: fil
+          body: |
+            isi:su
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}         # Path ke file yang ditandatangani (hasil output)
