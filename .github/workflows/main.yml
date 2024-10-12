@@ -53,15 +53,14 @@ jobs:
           files: | 
             ./extracted_files/vbmeta.img.lz4
             ./extracted_files/userdata.img.lz4
-            ./extracted_files/super.img.lz4
-            ./extracted_files/meta-data
+            
             ./extracted_files/recovery.img.lz4
             ./extracted_files/metadata.img.lz4
             ./extracted_files/dtbo.img.lz4
             ./extracted_files/boot.img.lz4
             ./extracted_files/_FirmwareInfo_Samfw.com.txt
-          name: extract
-          tag_name: file
+          name: extract1
+          tag_name: file1
           body: |
             isi:fw
         
