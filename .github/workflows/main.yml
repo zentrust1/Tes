@@ -36,16 +36,30 @@ jobs:
         run: |
           ls -la ./extracted_files
 
-      # Memindahkan hasil ekstraksi ke direktori kerja repository
-      - name: Move extracted files to repo
-        run: |
-          mv ./extracted_files/* ./
+      # Membuat release (Jika belum ada)
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: 'v1.0.0' # Ubah sesuai dengan versi yang diinginkan
+          release_name: 'Release v1.0.0'
+          draft: false
+          prerelease: false
 
-      # Commit perubahan ke repository
-      - name: Commit changes
+      # Upload setiap file hasil ekstraksi ke release
+      - name: Upload extracted files to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+        continue-on-error: true  # Jika salah satu file gagal, proses tetap dilanjutkan
         run: |
-          git config --local user.name "GitHub Actions"
-          git config --local user.email "actions@github.com"
-          git add .
-          git commit -m "Add extracted files from zip"
-          git push
+          for file in ./extracted_files/*; do
+            if [ -f "$file" ]; then
+              echo "Uploading $file..."
+              gh release upload ${{ steps.create_release.outputs.upload_url }} "$file" --clobber
+            fi
+          done
