@@ -24,7 +24,7 @@ jobs:
       # Mendownload file zip dari Google Drive
       - name: Download file from Google Drive
         run: |
-          gdown https://drive.google.com/uc?id=1kfpysFE9NkyiIBcNn-mck5f7xLEJHfvk-O downloaded_file.zip
+          gdown https://drive.google.com/uc?id=1kfpysFE9NkyiIBcNn-mck5f7xLEJHfvk -O downloaded_file.zip
 
       # Mengekstrak file zip
       - name: Extract zip file
