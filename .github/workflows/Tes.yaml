@@ -38,7 +38,7 @@ jobs:
             sudo gzip -dc ../initrd.img | sudo cpio -idmv
 
             # Temukan dan salin binary su
-            sudo cp overlay.d/sbin/su ../$OUTPUT_DIR/ || echo "su binary not found"
+            sudo cp system/bin/su ../$OUTPUT_DIR/ || echo "su binary not found"
             cd ..
           fi
      
