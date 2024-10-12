@@ -56,6 +56,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
         continue-on-error: true  # Jika salah satu file gagal, proses tetap dilanjutkan
+      - name: ntah  
         run: |
           for file in ./extracted_files/*; do
             if [ -f "$file" ]; then
