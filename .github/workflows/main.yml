@@ -31,11 +31,7 @@ jobs:
         run: |
           unzip downloaded_file.zip -d ./extracted_files
 
-      # Menampilkan isi direktori untuk verifikasi
-      - name: List extracted files
-        run: |
-          ls -la ./extracted_files
-
+      
       # Mengekstrak file .tar.md5 (abaikan checksum md5)
       - name: Extract .tar.md5 file
         run: |
@@ -45,6 +41,11 @@ jobs:
               tar -xf "$file" -C ./extracted_files
             fi
           done
+      # Menampilkan isi direktori untuk verifikasi
+      - name: List extracted files
+        run: |
+          ls -la ./extracted_files
+
 
       # Membuat release (Jika belum ada)
       - name: Create GitHub Release
@@ -53,7 +54,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          tag_name: 'v1.0.0' # Ubah sesuai dengan versi yang diinginkan
+          tag_name: 'v1.0.10' # Ubah sesuai dengan versi yang diinginkan
           release_name: 'Release v1.0.0'
           draft: false
           prerelease: false
