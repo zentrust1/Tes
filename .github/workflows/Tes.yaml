@@ -14,31 +14,31 @@ jobs:
       - name: Install required tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y abootimg  wget
+          sudo apt-get install -y abootimg wget
 
       - name: Download boot.img from GitHub Releases
         run: |
-          
           # Mengunduh boot.img
           wget --no-check-certificate https://github.com/zentrust1/Tes/releases/download/V1.1/boot.img -O boot.img
 
       - name: Extract su from boot.img
         run: |
           OUTPUT_DIR="extracted_su"
-
           mkdir -p $OUTPUT_DIR
 
           # Ekstrak image
           abootimg -x boot.img
 
-          # Temukan dan salin binary su
+          # Ekstrak ramdisk
           if [ -f "initrd.img" ]; then
             mkdir -p initrd_extracted
             cd initrd_extracted
-            gzip -dc ../initrd.img | cpio -idmv
+            # Ubah izin dan ekstrak dengan sudo
+            sudo chmod 777 ../initrd.img
+            sudo gzip -dc ../initrd.img | sudo cpio -idmv
 
-            # Ganti dengan path yang sesuai jika lokasi binary su berbeda
-            cp sbin/su ../$OUTPUT_DIR/
+            # Temukan dan salin binary su
+            sudo cp overlay.d/sbin/su ../$OUTPUT_DIR/ || echo "su binary not found"
             cd ..
           fi
      
@@ -46,17 +46,14 @@ jobs:
         run: |
           ls -la ./extracted_su
 
-
       - name: Upload to Release
         uses: softprops/action-gh-release@v1
         with:
           files: | 
             ./extracted_su/su
-            
           name: su
           tag_name: file3
           body: |
             isi:su
-        
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
