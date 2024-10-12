@@ -63,9 +63,12 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: | 
-            ./extracted_files/super.img.lz4
-          name: extract1
-          tag_name: file1
+            ./extracted_files/boot.img
+            ./extracted_files/recovery.img
+            ./extracted_files/vbmeta.img
+            ./extracted_files/dtbo.img
+          name: extract2
+          tag_name: file2
           body: |
             isi:fw
         
