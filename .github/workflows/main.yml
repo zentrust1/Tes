@@ -1,9 +1,7 @@
 name: Download and Extract Zip from Google Drive
 
 on:
-  push:
-    branches:
-      - main  # Action akan berjalan ketika ada push ke branch 'main'
+  workflow_dispatch: # Action akan berjalan ketika ada push ke branch 'main'
 
 jobs:
   download_and_extract:
