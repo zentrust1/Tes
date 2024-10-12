@@ -66,8 +66,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-        continue-on-error: true  # Jika salah satu file gagal, proses tetap dilanjutkan
-      - name: tes
+        continue-on-error: true  # Jika salah satu file gagal, proses tetap dilanjutk
         run: |
           for file in ./extracted_files/*; do
             if [ -f "$file" ]; then
