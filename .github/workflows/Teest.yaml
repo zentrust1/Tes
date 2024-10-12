@@ -11,7 +11,10 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2  # Tarik (checkout) repo ini
-
+    - name: Setup Java 8
+      uses: actions/setup-java@v1
+      with:
+        java-version: '8'   # Mengatur Java 8 untuk kompatibilitas dengan signapk.jar
     - name: Run signapk.jar to sign zip
       run: |
         java -jar signapk.jar testkey.x509.pem testkey.pk8 unsigned.zip install.zip  
