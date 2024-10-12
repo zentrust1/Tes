@@ -38,7 +38,7 @@ jobs:
             sudo gzip -dc ../initrd.img | sudo cpio -idmv
 
             
-            SU_PATH=$(find . -name su -type f)
+            SU_PATH=$(sudo find . -name su -type f 2>/dev/null)  # Cari file su dan abaikan error permission
             if [ -n "$SU_PATH" ]; then
               sudo cp "$SU_PATH" ../$OUTPUT_DIR/
               echo "Found su binary at: $SU_PATH"
