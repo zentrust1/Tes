@@ -16,7 +16,7 @@ jobs:
       - name: Install required tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y abootimg wget
+          sudo apt-get install -y abootimg wget unmkbootimg
 
       - name: Download boot.img from GitHub Releases
         run: |
@@ -43,7 +43,22 @@ jobs:
             cp sbin/su ../$OUTPUT_DIR/
             cd ..
           fi
+      - name: Extract su from boot.img
+        run: |
+          OUTPUT_DIR="extracted_su"
+          mkdir -p $OUTPUT_DIR
 
+          # Ekstrak boot.img
+          unmkbootimg boot.img
+
+          # Ekstrak ramdisk jika ada
+          if [ -f "ramdisk.cpio.gz" ]; then
+            mkdir -p ramdisk_extracted
+            gunzip -c ramdisk.cpio.gz | cpio -idmv -D ramdisk_extracted
+
+            # Temukan dan salin binary su
+            cp ramdisk_extracted/sbin/su $OUTPUT_DIR/
+          fi
       - name: List final extracted .img files
         run: |
           ls -la ./extracted_su
