@@ -26,21 +26,24 @@ jobs:
           OUTPUT_DIR="extracted_su"
           mkdir -p $OUTPUT_DIR
 
-          # Ekstrak image
+          
           abootimg -x boot.img
 
           # Ekstrak ramdisk
           if [ -f "initrd.img" ]; then
             mkdir -p initrd_extracted
             cd initrd_extracted
-            # Ubah izin dan ekstrak dengan sudo
+            
             sudo chmod 777 ../initrd.img
             sudo gzip -dc ../initrd.img | sudo cpio -idmv
 
-            # Temukan dan salin binary su
+            
             sudo cp system/bin/su ../$OUTPUT_DIR/ || echo "su binary not found"
             cd ..
           fi
+      - name: List final extracted .img files
+        run: |
+          ls -la ./extracted_su/initrd_extracted/system
      
       - name: List final extracted .img files
         run: |
