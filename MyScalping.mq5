@@ -4,7 +4,7 @@
 #property copyright "by eko"
 #property version   "1.00"
 #property strict
-
+ 
 input int TakeProfit = 300;
 input int StopLoss   = 50;
 
