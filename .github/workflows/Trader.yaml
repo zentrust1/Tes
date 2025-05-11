@@ -1,0 +1,39 @@
+name: Build EA MQL5
+
+on:
+  push:
+    paths:
+      - '**.mq5'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install Wine & MetaEditor
+      run: |
+        sudo dpkg --add-architecture i386
+        sudo apt update
+        sudo apt install wine64 wine32 wget unzip -y
+
+        wget https://download.mql5.com/cdn/web/metaquotes.software/metatrader5/mt5setup.exe
+        wine mt5setup.exe /silent
+
+        mkdir -p ~/.wine/drive_c/metaeditor/
+        # Misalnya kamu punya MetaEditor.exe sendiri
+        # Copy MetaEditor.exe ke ~/.wine/drive_c/metaeditor/
+
+    - name: Compile EA
+      run: |
+        mkdir -p ~/ea_build
+        wine ~/.wine/drive_c/metaeditor/metaeditor.exe /compile:"MyScalpingEA.mq5" /log:"compile.log" /out:"~/ea_build/"
+
+    - name: Upload EA file
+      uses: actions/upload-artifact@v3
+      with:
+        name: compiled-ea
+        path: ~/ea_build/
