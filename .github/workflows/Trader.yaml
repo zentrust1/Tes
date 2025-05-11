@@ -36,4 +36,11 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: compiled-ea
+        
+    - name: Upload to Release
+      uses: softprops/action-gh-release@v1
+      with:
+        name: tes
         path: ~/ea_build/
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
