@@ -32,11 +32,6 @@ jobs:
         mkdir -p ~/ea_build
         wine ~/.wine/drive_c/metaeditor/metaeditor.exe /compile:"MyScalpingEA.mq5" /log:"compile.log" /out:"~/ea_build/"
 
-    - name: Upload EA file
-      uses: actions/upload-artifact@v3
-      with:
-        name: compiled-ea
-        
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
       with:
